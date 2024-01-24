@@ -18,7 +18,7 @@ async function bootstrap() {
   // Configurar CORS para Socket.IO
   const io = socketIo(server, {
     cors: {
-      origin: "http://localhost:4200",
+      origin: "http://transcendent-raindrop-24784c.netlify.app:4200",
       methods: ["GET", "POST"]
     }
   });
