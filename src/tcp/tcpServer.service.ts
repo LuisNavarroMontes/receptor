@@ -8,7 +8,7 @@ export class TcpServerService {
 
   constructor(private readonly appGateway: AppGateway) {
     this.server = net.createServer(this.handleConnection.bind(this));
-    this.server.listen(4000, 'receptor-oqhqntyfq-luis-projects-b8acb995.vercel.app');
+    this.server.listen(4000);
   }
 
   private handleConnection(socket: net.Socket): void {
