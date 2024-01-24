@@ -6,8 +6,7 @@ import { appendFile } from 'fs';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors(); // Permitir cualquier origen, deberías restringir esto en producción
-  app.listen(3000); // Iniciar el servidor HTTP en el puerto 3000
+  app.enableCors(); // Iniciar el servidor HTTP en el puerto 3000
   const express = require('express');
   const http = require('http');
   const socketIo = require('socket.io');
