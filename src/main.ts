@@ -19,7 +19,7 @@ async function bootstrap() {
   const io = socketIo(server, {
     cors: {
       origin: "https://65b182664094514fd804499a--clinquant-griffin-3aa1f9.netlify.app",
-      methods: ["ALL"],
+      methods: ["*"],
     }
   });
 
