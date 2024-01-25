@@ -9,6 +9,7 @@ export class TcpServerService {
   constructor(private readonly appGateway: AppGateway) {
     this.server = net.createServer(this.handleConnection.bind(this));
     this.server.listen(3000,'0.0.0.0');
+    console.log('Servidor TCP escuchando en el puerto 3000');
   }
 
   private handleConnection(socket: net.Socket): void {
