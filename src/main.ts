@@ -2,16 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AppGateway } from './tcp/appGateway';
 
-const cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.listen(3000);
   app.enableCors();
-  const corsConfig = {
-    origin: '*',
-    methods: ['*']
-  }
-  app.use(cors(corsConfig))
 
   const express = require('express');
   const http = require('http');
