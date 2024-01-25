@@ -13,7 +13,7 @@ async function bootstrap() {
 
   // Crear la aplicación Express
   const server = http.createServer(app);
-  server.listen(3000);
+
   // Configurar CORS para Socket.IO
   const io = socketIo(server, {
     cors: {
@@ -22,7 +22,7 @@ async function bootstrap() {
     }
   });
   // Iniciar el servidor
-  const PORT = process.env.PORT || 4000;
+  const PORT = process.env.PORT;
   server.listen(PORT, () => {
     console.log(`Servidor Socket.IO escuchando en el puerto ${PORT}`);
   });
