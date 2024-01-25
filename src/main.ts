@@ -22,7 +22,8 @@ async function bootstrap() {
     }
   });
   // Iniciar el servidor
-  app.listen(2000);
+  const PUERTO = process.env.PORT || 3000;
+  await app.listen(PUERTO);
   const PORT = 4000;
   server.listen(PORT, () => {
     console.log(`Servidor escuchando en el puerto ${PORT}`);
