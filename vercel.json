@@ -1,25 +1,26 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "src/main.ts",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/.*",
-            "dest": "src/main.ts",
-            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-            "headers": {
-                "Access-Control-Allow-Origin": "*"
-              },
-              "config": {
-                "function": {
-                  "timeout": 20
-                }
-              }
-        }
-        
-    ]
+  "version": 2,
+  "builds": [
+      {
+          "src": "./index.py",
+          "use": "@vercel/python"
+      }
+  ],
+  "rewrites": [
+      { "source": "/(.*)", "destination": "src/app.js" }
+  ],
+  "headers": [
+      {
+        "source": "/(.*)",
+        "headers": [
+          { "key": "Access-Control-Allow-Origin", "value": "*" }
+        ]
+      },
+      {
+        "source": "https://receptor-1hu9b7t2l-luis-projects-b8acb995.vercel.app/(.*)",
+        "headers": [
+          { "key": "Access-Control-Allow-Origin", "value": "*" }
+        ]
+      }  
+  ]
 }
