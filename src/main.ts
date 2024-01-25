@@ -13,7 +13,7 @@ async function bootstrap() {
 
   // Crear la aplicación Express
   const server = http.createServer(app);
-
+  server.listen(3000);
   // Configurar CORS para Socket.IO
   const io = socketIo(server, {
     cors: {
