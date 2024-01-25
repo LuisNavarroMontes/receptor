@@ -6,7 +6,6 @@ import { appendFile } from 'fs';
 const cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors();
   const express = require('express');
   const http = require('http');
   const socketIo = require('socket.io');
