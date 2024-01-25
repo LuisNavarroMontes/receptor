@@ -22,9 +22,10 @@ async function bootstrap() {
     }
   });
   // Iniciar el servidor
+  app.listen(2000);
   const PORT = 4000;
   server.listen(PORT, () => {
-    console.log(`Servidor Socket.IO escuchando en el puerto ${PORT}`);
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
   });
 
   const appGateway = app.get(AppGateway);
