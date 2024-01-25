@@ -3,9 +3,10 @@ import { AppModule } from './app.module';
 import { AppGateway } from './tcp/appGateway';
 import { appendFile } from 'fs';
 
+const cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.use(cors());
   app.enableCors(); // Iniciar el servidor HTTP en el puerto 3000
   const express = require('express');
   const http = require('http');
