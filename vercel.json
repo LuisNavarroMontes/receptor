@@ -13,7 +13,13 @@
             "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
             "headers": {
                 "Access-Control-Allow-Origin": "*"
+              },
+              "config": {
+                "function": {
+                  "timeout": 20
+                }
               }
         }
+        
     ]
 }
