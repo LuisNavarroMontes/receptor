@@ -20,7 +20,7 @@ async function bootstrap() {
       methods: ["*"],
     }
   });
-
+  app.enableCors();
   // Iniciar el servidor
   const PORT = process.env.PORT || 4000;
   server.listen(PORT, () => {
@@ -29,7 +29,7 @@ async function bootstrap() {
 
   const appGateway = app.get(AppGateway);
 
-  app.use(cors());
+  
   // Manejar conexiones de Socket.IO
   io.on('connection', (socket) => {
     console.log('Usuario conectado');
