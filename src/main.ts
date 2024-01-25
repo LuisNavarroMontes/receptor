@@ -6,8 +6,7 @@ import { appendFile } from 'fs';
 const cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(cors());
-  app.enableCors(); // Iniciar el servidor HTTP en el puerto 3000
+  app.enableCors();
   const express = require('express');
   const http = require('http');
   const socketIo = require('socket.io');
@@ -31,6 +30,7 @@ async function bootstrap() {
 
   const appGateway = app.get(AppGateway);
 
+  app.use(cors());
   // Manejar conexiones de Socket.IO
   io.on('connection', (socket) => {
     console.log('Usuario conectado');
