@@ -22,7 +22,7 @@ async function bootstrap() {
     }
   });
   // Iniciar el servidor
-  const PORT = process.env.PORT;
+  const PORT = 4000;
   server.listen(PORT, () => {
     console.log(`Servidor Socket.IO escuchando en el puerto ${PORT}`);
   });
