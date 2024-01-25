@@ -1,12 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AppGateway } from './tcp/appGateway';
+import { appendFile } from 'fs';
 
+const cors = require('cors');
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.listen(3000);
   app.enableCors();
-
   const express = require('express');
   const http = require('http');
   const socketIo = require('socket.io');
