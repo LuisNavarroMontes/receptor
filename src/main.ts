@@ -10,7 +10,7 @@ async function bootstrap() {
   const PUERTO = process.env.PORT || 3000;
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  app.listen(PUERTO, "0.0.0.0" ,() => console.log(`Servidor escuchando en el puerto ${PUERTO}`));
+  await app.listen(PUERTO, "0.0.0.0");
   const appGateway = app.get(AppGateway);
   /*
   // Crear el servidor TCP
