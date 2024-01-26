@@ -13,12 +13,7 @@ async function bootstrap() {
  const appGateway = new AppGateway();
 
  // Configure CORS for Socket.IO
- const io = new Server(httpServer, {
-     cors: {
-       origin: "*",
-       methods: ["GET", "POST"],
-     }
- });
+ const io = new Server(httpServer, {cors: {origin: '*'}});
 
  // Handle Socket.IO connections
  io.on('connection', (socket) => {
