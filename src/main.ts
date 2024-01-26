@@ -10,7 +10,6 @@ async function bootstrap() {
   
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  await app.listen(process.env.PORT || 3000);
   // Crear el servidor TCP
   const tcpServer = net.createServer((socket) => {
      socket.on('data', (data) => {
@@ -32,9 +31,6 @@ async function bootstrap() {
        methods: ["*"],
      }
   });
- 
-  // Iniciar el servidor
-  const PORT = process.env.PORT;
  
   // Manejar conexiones de Socket.IO
   io.on('connection', (socket) => {
