@@ -8,7 +8,9 @@ const cors = require('cors');
 const express = require('express');
 const http = require('http');
 const socketIo = require('socket.io');
+
 async function bootstrap() {
+  
   const app = await NestFactory.create(AppModule);
   app.enableCors();
  
@@ -20,7 +22,9 @@ async function bootstrap() {
        appGateway.sendMessageToClients(data.toString());
      });
   });
-  tcpServer.listen(this.env.PORT, () => console.log('Servidor TCP escuchando en el puerto 3000'));
+  const PUERTO = process.env.PORT;
+  app.listen(PUERTO)
+  tcpServer.listen(PUERTO, () => console.log('Servidor TCP escuchando en el puerto 3000'));
  
   // Crear la aplicación Express
   const server = http.createServer(app);
@@ -34,10 +38,7 @@ async function bootstrap() {
   });
  
   // Iniciar el servidor
-  const PORT = 4000;
-  server.listen(PORT, () => {
-     console.log(`Servidor escuchando en el puerto ${PORT}`);
-  });
+  const PORT = process.env.PORT;
  
   // Manejar conexiones de Socket.IO
   io.on('connection', (socket) => {
