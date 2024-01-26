@@ -24,9 +24,9 @@ async function bootstrap() {
  io.on('connection', (socket) => {
      console.log('User connected to the socket');
      appGateway.server = io;
-     socket.on('message', (data) => {
+     socket.on('data', (data) => {
        console.log('Received message:', data);
-       appGateway.sendMessageToClients(data.toString());
+       socket.broadcast.emit('message', data);
      });
 
      socket.on('disconnect', () => {
