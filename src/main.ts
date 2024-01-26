@@ -16,7 +16,7 @@ async function bootstrap() {
  const io = new Server(httpServer, {
      cors: {
        origin: "*",
-       methods: ["*"],
+       methods: ["GET", "POST"],
      }
  });
 
