@@ -34,8 +34,8 @@ async function bootstrap() {
      });
  });
 
- const port = process.env.PORT || 3000;
- await httpServer.listen(port);
+
+ await httpServer.listen(process.env.PORT || 3000);
  console.log(`Server is running at http://localhost:${port}`);
 }
 
