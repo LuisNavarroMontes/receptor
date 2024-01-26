@@ -22,7 +22,7 @@ async function bootstrap() {
 
  // Handle Socket.IO connections
  io.on('connection', (socket) => {
-     console.log('User connected');
+     console.log('User connected to the socket');
      appGateway.server = io;
      socket.on('message', (data) => {
        console.log('Received message:', data);
