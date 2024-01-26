@@ -7,11 +7,9 @@ const http = require('http');
 const socketIo = require('socket.io');
 
 async function bootstrap() {
-  const PUERTO = process.env.PORT || 3000;
   const app = await NestFactory.create(AppModule);
   app.enableCors();
-  await app.listen(PUERTO, "0.0.0.0");
-  const appGateway = app.get(AppGateway);
+  await app.listen(process.env.PORT || 3000, "0.0.0.0");
   /*
   // Crear el servidor TCP
   const tcpServer = net.createServer((socket) => {
@@ -47,8 +45,6 @@ async function bootstrap() {
      socket.on('disconnect', () => {
        console.log('Usuario desconectado');
      });
- 
-     // Inyectar el servidor WebSocket en el AppGateway
   });
  }
  
