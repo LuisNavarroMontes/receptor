@@ -8,13 +8,17 @@ import { AppGateway } from './app.gateway';
 async function bootstrap() {
  const app = express();
  const httpServer = createServer(app);
- await httpServer.listen(process.env.PORT || 3000);
- console.log(`Server is running at http://localhost:${process.env.PORT || 3000}`);
+
  // Create a new instance of the AppGateway
  const appGateway = new AppGateway();
 
  // Configure CORS for Socket.IO
- const io = new Server(httpServer, {cors: {origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']}});
+ const io = new Server(httpServer, {
+     cors: {
+       origin: "*",
+       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+     }
+ });
 
  // Handle Socket.IO connections
  io.on('connection', (socket) => {
@@ -29,6 +33,10 @@ async function bootstrap() {
        console.log('User disconnected');
      });
  });
+
+ const port = process.env.PORT || 3000;
+ await httpServer.listen(port);
+ console.log(`Server is running at http://localhost:${port}`);
 }
 
 bootstrap();
