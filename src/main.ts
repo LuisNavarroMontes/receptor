@@ -22,8 +22,7 @@ async function bootstrap() {
        appGateway.sendMessageToClients(data.toString());
      });
   });
-  const PUERTO = process.env.PORT;
-  app.listen(PUERTO)
+  const PUERTO = process.env.PORT || 3000;
   tcpServer.listen(PUERTO, () => console.log('Servidor TCP escuchando en el puerto 3000'));
  
   // Crear la aplicación Express
