@@ -3,10 +3,10 @@ import { Server } from 'socket.io';
 
 @WebSocketGateway()
 export class AppGateway {
-  @WebSocketServer()
-  server: Server;
+ @WebSocketServer()
+ server: Server;
 
-  sendMessageToClients(message: string): void {
+ sendMessageToClients(message: string): void {
     this.server.emit('message', message);
-  }
+ }
 }
