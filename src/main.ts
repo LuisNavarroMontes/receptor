@@ -2,14 +2,13 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { AppGateway } from './tcp/appGateway';
 import * as net from 'net';
-
-const http = require('http');
-const socketIo = require('socket.io');
+import * as express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.enableCors();
-  await app.listen(process.env.PORT || 3000, "0.0.0.0");
+  const app = express();
+  await app.listen(process.env.PORT || 3000);
   /*
   // Crear el servidor TCP
   const tcpServer = net.createServer((socket) => {
@@ -22,10 +21,11 @@ async function bootstrap() {
  */
   // Crear la aplicación Express
   
-  const server = http.createServer(app);
+  
+const httpServer = createServer(app);
   
   // Configurar CORS para Socket.IO
-  const io = socketIo(server, {
+  const io = new Server(httpServer, {
      cors: {
        origin: "*",
        methods: ["*"],
