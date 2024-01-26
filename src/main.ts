@@ -9,6 +9,7 @@ async function bootstrap() {
  const app = express();
  const httpServer = createServer(app);
  await httpServer.listen(process.env.PORT || 3000);
+ console.log('Socket.IO server listening on port', process.env.PORT || 3000);
  // Create a new instance of the AppGateway
  const appGateway = new AppGateway();
 
