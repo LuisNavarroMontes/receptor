@@ -11,17 +11,17 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors();
   app.listen(PUERTO, "0.0.0.0" ,() => console.log(`Servidor escuchando en el puerto ${PUERTO}`));
+  const appGateway = app.get(AppGateway);
   /*
   // Crear el servidor TCP
   const tcpServer = net.createServer((socket) => {
      socket.on('data', (data) => {
        console.log(`Datos recibidos: ${data.toString()}`);
-       const appGateway = app.get(AppGateway);
        appGateway.sendMessageToClients(data.toString());
      });
   });
   tcpServer.listen(PUERTO, () => console.log('Servidor TCP escuchando en el puerto 3000'));
- 
+ */
   // Crear la aplicación Express
   
   const server = http.createServer(app);
@@ -37,10 +37,11 @@ async function bootstrap() {
   // Manejar conexiones de Socket.IO
   io.on('connection', (socket) => {
      console.log('Usuario conectado');
- 
+     const appGateway = app.get(AppGateway);
+     appGateway.server = io;
      socket.on('message', (data) => {
        console.log('Mensaje recibido:', data);
-       io.emit('message', 'Hola desde el servidor');
+       appGateway.sendMessageToClients(data.toString());
      });
  
      socket.on('disconnect', () => {
@@ -48,10 +49,7 @@ async function bootstrap() {
      });
  
      // Inyectar el servidor WebSocket en el AppGateway
-     const appGateway = app.get(AppGateway);
-     appGateway.server = io;
   });
-  */
  }
  
  bootstrap();
