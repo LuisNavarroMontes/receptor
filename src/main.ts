@@ -8,7 +8,7 @@ import { AppGateway } from './app.gateway';
 async function bootstrap() {
  const app = express();
  const httpServer = createServer(app);
-
+ await httpServer.listen(process.env.PORT || 3000);
  // Create a new instance of the AppGateway
  const appGateway = new AppGateway();
 
@@ -33,9 +33,6 @@ async function bootstrap() {
        console.log('User disconnected');
      });
  });
-
-
- await httpServer.listen(process.env.PORT || 3000);
 }
 
 bootstrap();
