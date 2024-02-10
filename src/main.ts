@@ -37,15 +37,13 @@ async function bootstrap() {
       
               if (existingDevice) {
                   // Si el dispositivo ya existe, agregamos la temperatura al array existente
-                  if (!existingDevice.temperatura.includes(deviceData.temperatura)) {
-                      existingDevice.temperatura.push(deviceData.temperatura);
-                  }
+                  existingDevice.temperatura.push(deviceData.temperatura);
               } else {
                   // Si el dispositivo no existe, lo agregamos al JSON
-                  const newId = Object.keys(json).filter(key => key.startsWith('IoT')).length + 1;
+    
                   json[deviceKey] = {
                       ...deviceData,
-                      "id": newId,
+                      "id": deviceData.id,
                       "temperatura": [deviceData.temperatura]
                   };
               }
