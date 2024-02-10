@@ -35,42 +35,34 @@ async function bootstrap() {
     io.on('connection', (socket) => {
         console.log('User connected to the socket');
 
+        let nextIoTNumber = 1;
         socket.on('data', (data) => {
-          const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
-          newDevices.forEach(deviceKey => {
-              const deviceData = data[deviceKey];
-              let existingDevice = Object.values(json).find(device => {
-                  return typeof device !== 'number' && device.id === deviceData.id;
-              });
-              if (existingDevice) {
-                  if (typeof existingDevice !== 'number') {
-                      // Si el dispositivo ya existe, agregamos la temperatura al array existente
-                      existingDevice.temperatura.push(deviceData.temperatura);
-                  }
-              } else {
-                  // Si el dispositivo no existe, lo agregamos al JSON
-                  const unusedKey = Object.keys(json).find(key => key.startsWith('IoT') && !data[key]);
-                  if (unusedKey) {
-                      json[unusedKey] = {
-                          ...deviceData,
-                          "id": deviceData.id,
-                          "temperatura": [deviceData.temperatura]
-                      };
-                  } else {
-                      const newKey = `IoT_${Date.now()}`; // Generar un nuevo nombre para el dispositivo
-                      json[newKey] = {
-                          ...deviceData,
-                          "id": deviceData.id,
-                          "temperatura": [deviceData.temperatura]
-                      };
-                  }
-              }
-          });
-      
-          // Actualizamos la cantidad de dispositivos IoT
-          json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
-          console.log('Modified JSON:', json);
-          socket.broadcast.emit('message', json);
+            const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
+            newDevices.forEach(deviceKey => {
+                const deviceData = data[deviceKey];
+                let existingDevice = Object.values(json).find(device => {
+                    return typeof device !== 'number' && device.id === deviceData.id;
+                });
+                if (existingDevice) {
+                    if (typeof existingDevice !== 'number') {
+                        // Si el dispositivo ya existe, agregamos la temperatura al array existente
+                        existingDevice.temperatura.push(deviceData.temperatura);
+                    }
+                } else {
+                    // Si el dispositivo no existe, lo agregamos al JSON
+                    const newDeviceKey = `IoTN_${nextIoTNumber++}`;
+                    json[newDeviceKey] = {
+                        ...deviceData,
+                        "id": deviceData.id,
+                        "temperatura": [deviceData.temperatura]
+                    };
+                }
+            });
+
+            // Actualizamos la cantidad de dispositivos IoT
+            json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
+            console.log('Modified JSON:', json);
+            socket.broadcast.emit('message', json);
         });
 
         socket.on('disconnect', () => {
