@@ -34,7 +34,7 @@ async function bootstrap() {
 
     io.on('connection', (socket) => {
         console.log('User connected to the socket');
-
+        socket.broadcast.emit('message', json);
         let nextIoTNumber = 1;
         socket.on('data', (data) => {
             const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
