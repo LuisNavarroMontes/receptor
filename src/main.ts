@@ -27,6 +27,7 @@ async function bootstrap() {
  io.on('connection', (socket) => {
      console.log('User connected to the socket');
      appGateway.server = io;
+     socket.broadcast.emit('message', json);
      socket.on('data', (data) => {
        // Aquí modificamos el JSON recibido y agregamos nuevos dispositivos IoT
        const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
