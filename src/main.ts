@@ -27,27 +27,24 @@ async function bootstrap() {
           const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
           newDevices.forEach(deviceKey => {
               const deviceData = data[deviceKey];
-              let existingDevice;
-              // Buscamos si el dispositivo ya existe
-              Object.keys(json).forEach(key => {
-                  if (json[key].id === deviceData.id) {
-                      existingDevice = json[key];
-                  }
-              });
-      
+              let existingDevice = json[deviceKey];
               if (existingDevice) {
                   // Si el dispositivo ya existe, agregamos la temperatura al array existente
                   existingDevice.temperatura.push(deviceData.temperatura);
               } else {
                   // Si el dispositivo no existe, lo agregamos al JSON
-    
                   json[deviceKey] = {
                       ...deviceData,
-                      "id": deviceData.id,
                       "temperatura": [deviceData.temperatura]
                   };
               }
           });
+      
+          // Actualizamos la cantidad de dispositivos IoT
+          json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
+          console.log('Modified JSON:', json);
+          socket.broadcast.emit('message', json);
+      });
       
           // Actualizamos la cantidad de dispositivos IoT
           json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
