@@ -49,11 +49,21 @@ async function bootstrap() {
                   }
               } else {
                   // Si el dispositivo no existe, lo agregamos al JSON
-                  json[deviceKey] = {
-                      ...deviceData,
-                      "id": deviceData.id,
-                      "temperatura": [deviceData.temperatura]
-                  };
+                  const unusedKey = Object.keys(json).find(key => key.startsWith('IoT') && !data[key]);
+                  if (unusedKey) {
+                      json[unusedKey] = {
+                          ...deviceData,
+                          "id": deviceData.id,
+                          "temperatura": [deviceData.temperatura]
+                      };
+                  } else {
+                      const newKey = `IoT_${Date.now()}`; // Generar un nuevo nombre para el dispositivo
+                      json[newKey] = {
+                          ...deviceData,
+                          "id": deviceData.id,
+                          "temperatura": [deviceData.temperatura]
+                      };
+                  }
               }
           });
       
@@ -61,7 +71,7 @@ async function bootstrap() {
           json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
           console.log('Modified JSON:', json);
           socket.broadcast.emit('message', json);
-      });
+        });
 
         socket.on('disconnect', () => {
             console.log('User disconnected');
