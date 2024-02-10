@@ -12,7 +12,9 @@ async function bootstrap() {
  console.log('Socket.IO server listening on port', process.env.PORT || 3000);
  // Create a new instance of the AppGateway
  const appGateway = new AppGateway();
-
+ let json = {
+    "N_con": 0
+ }
  // Configure CORS for Socket.IO
  const io = new Server(httpServer, {
      cors: {
@@ -26,8 +28,18 @@ async function bootstrap() {
      console.log('User connected to the socket');
      appGateway.server = io;
      socket.on('data', (data) => {
-       console.log('Received message:', data);
-       socket.broadcast.emit('message', data);
+       // Aquí modificamos el JSON recibido y agregamos nuevos dispositivos IoT
+       const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
+       newDevices.forEach((deviceKey, index) => {
+         const newId = Object.keys(json).filter(key => key.startsWith('IoT')).length + index + 1;
+         json[deviceKey] = {
+           ...data[deviceKey],
+           "id": newId,
+         };
+       });
+       json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
+       console.log('Modified JSON:', json);
+       socket.broadcast.emit('message', json);
      });
 
      socket.on('disconnect', () => {
