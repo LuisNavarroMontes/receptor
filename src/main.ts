@@ -13,7 +13,7 @@ async function bootstrap() {
  // Create a new instance of the AppGateway
  const appGateway = new AppGateway();
  let json = {
-    "N_con": 0
+   "N_con": 0,
  }
  // Configure CORS for Socket.IO
  const io = new Server(httpServer, {
@@ -27,17 +27,26 @@ async function bootstrap() {
  io.on('connection', (socket) => {
      console.log('User connected to the socket');
      appGateway.server = io;
-     socket.broadcast.emit('message', json);
      socket.on('data', (data) => {
        // Aquí modificamos el JSON recibido y agregamos nuevos dispositivos IoT
        const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
-       newDevices.forEach((deviceKey, index) => {
-         const newId = Object.keys(json).filter(key => key.startsWith('IoT')).length + index + 1;
-         json[deviceKey] = {
-           ...data[deviceKey],
-           "id": newId,
-         };
+       newDevices.forEach(deviceKey => {
+         const deviceData = data[deviceKey];
+         const existingDevice = json[deviceKey];
+         if (existingDevice && typeof existingDevice === 'object' && 'id' in existingDevice) {
+           // Si el dispositivo ya existe y es un objeto con la propiedad 'id', agregamos la temperatura al array existente
+           existingDevice.temperatura.push(deviceData.temperatura);
+         } else {
+           // Si el dispositivo no existe o no tiene la propiedad 'id', lo agregamos al JSON
+           const newId = Object.keys(json).filter(key => key.startsWith('IoT')).length + 1;
+           json[deviceKey] = {
+             ...deviceData,
+             "id": newId,
+             "temperatura": [deviceData.temperatura]
+           };
+         }
        });
+       // Actualizamos la cantidad de dispositivos IoT
        json.N_con = Object.keys(json).filter(key => key.startsWith('IoT')).length;
        console.log('Modified JSON:', json);
        socket.broadcast.emit('message', json);
