@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { get } from 'http';
+import { getTemeperaturas } from './main';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getDatos(): any {
+    return getTemeperaturas();
   }
 }

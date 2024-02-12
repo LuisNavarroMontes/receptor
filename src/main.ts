@@ -1,3 +1,4 @@
+import { Get } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as express from 'express';
 import { createServer } from 'http';
@@ -15,16 +16,23 @@ interface JSONData {
   [key: string]: Device | number;
 }
 
+let json: JSONData = {
+    "N_con": 0,
+  };
+
+export function getTemeperaturas() {
+    return json;
+}
+
 
 async function bootstrap() {
     const app = express();
+    app.get('/', (req, res) => {
+        res.send(json);
+    });
     const httpServer = createServer(app);
     await httpServer.listen(process.env.PORT || 3000);
     console.log('Socket.IO server listening on port', process.env.PORT || 3000);
-
-    let json: JSONData = {
-      "N_con": 0,
-    };
     const io = new Server(httpServer, {
         cors: {
             origin: "*",
@@ -34,9 +42,7 @@ async function bootstrap() {
 
     io.on('connection', (socket) => {
         console.log('User connected to the socket');
-        setTimeout(() => {
-            socket.broadcast.emit('conexion', json);
-          }, 1000); 
+        socket.broadcast.emit('conexion', json);
         let nextIoTNumber = 1;
         socket.on('data', (data) => {
             const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
