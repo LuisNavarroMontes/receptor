@@ -1,8 +1,8 @@
-import { Get } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import * as cors from 'cors'; // Import cors package
 
 interface Device {
   id: number;
@@ -24,9 +24,12 @@ export function getTemeperaturas() {
     return json;
 }
 
-
 async function bootstrap() {
     const app = express();
+
+    // Enable CORS
+    app.use(cors());
+
     app.get('/', (req, res) => {
         res.send(json);
     });
