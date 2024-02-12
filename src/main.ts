@@ -34,7 +34,7 @@ async function bootstrap() {
 
     io.on('connection', (socket) => {
         console.log('User connected to the socket');
-        socket.broadcast.emit('connect', json);
+        socket.broadcast.emit('connection', json);
         console.log("Message sent");
         let nextIoTNumber = 1;
         socket.on('data', (data) => {
