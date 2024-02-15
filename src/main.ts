@@ -3,6 +3,7 @@ import * as express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import * as cors from 'cors'; // Import cors package
+import * as bodyParser from 'body-parser';
 
 interface Device {
   id: number;
@@ -29,13 +30,13 @@ async function bootstrap() {
 
     // Enable CORS
     app.use(cors());
-
+    app.use(bodyParser.json());
     app.get('/', (req, res) => {
         res.send(json);
     });
     let nextIoTNumber = 1;
     app.post("/", (req)=>{
-        let data = req
+        let data = req.body
         const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
             newDevices.forEach(deviceKey => {
                 const deviceData = data[deviceKey];
