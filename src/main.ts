@@ -34,8 +34,8 @@ async function bootstrap() {
         res.send(json);
     });
     let nextIoTNumber = 1;
-    app.post("/", (req,res)=>{
-        let data = req.body
+    app.post("/", (req)=>{
+        let data = req
         const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
             newDevices.forEach(deviceKey => {
                 const deviceData = data[deviceKey];
