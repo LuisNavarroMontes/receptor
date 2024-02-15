@@ -33,6 +33,36 @@ async function bootstrap() {
     app.get('/', (req, res) => {
         res.send(json);
     });
+    let nextIoTNumber = 1;
+    app.post("/", (req,res)=>{
+        let data = req.body
+        const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
+            newDevices.forEach(deviceKey => {
+                const deviceData = data[deviceKey];
+                let existingDevice = Object.values(json).find(device => {
+                    return typeof device !== 'number' && device.id === deviceData.id;
+                });
+                if (existingDevice) {
+                    if (typeof existingDevice !== 'number') {
+                        // Si el dispositivo ya existe, agregamos la temperatura al array existente
+                        existingDevice.temperatura.push(deviceData.temperatura);
+                    }
+                } else {
+                    // Si el dispositivo no existe, lo agregamos al JSON
+                    const newDeviceKey = `IoTN_${nextIoTNumber++}`;
+                    json[newDeviceKey] = {
+                        ...deviceData,
+                        "id": deviceData.id,
+                        "temperatura": [deviceData.temperatura]
+                    };
+                }
+            });
+
+            // Actualizamos la cantidad de dispositivos IoT
+            json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
+            console.log('Modified JSON:', json);
+    })
+
     const httpServer = createServer(app);
     await httpServer.listen(process.env.PORT || 3000);
     console.log('Socket.IO server listening on port', process.env.PORT || 3000);
