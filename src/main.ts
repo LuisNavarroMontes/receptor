@@ -34,6 +34,8 @@ async function bootstrap() {
     app.get('/', (req, res) => {
         res.send(json);
     });
+
+
     let nextIoTNumber = 1;
     app.post("/", (req)=>{
         let data = req.body
@@ -54,7 +56,7 @@ async function bootstrap() {
                     json[newDeviceKey] = {
                         ...deviceData,
                         "id": deviceData.id,
-                        "temperatura": [deviceData.temperatura]
+                        "temperatura": [...deviceData.temperatura]
                     };
                 }
             });
@@ -76,7 +78,6 @@ async function bootstrap() {
 
     io.on('connection', (socket) => {
         console.log('User connected to the socket');
-        let nextIoTNumber = 1;
         socket.on('data', (data) => {
             const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
             newDevices.forEach(deviceKey => {
