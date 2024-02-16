@@ -49,7 +49,7 @@ async function bootstrap() {
                 if (existingDevice) {
                     if (typeof existingDevice !== 'number') {
                         // Si el dispositivo ya existe, agregamos la temperatura al array existente
-                        existingDevice.temperatura.push(deviceData.temperatura);
+                        existingDevice.temperatura.push(deviceData.temperatura.sift());
                     }
                 } else {
                     // Si el dispositivo no existe, lo agregamos al JSON
@@ -57,7 +57,7 @@ async function bootstrap() {
                     json[newDeviceKey] = {
                         ...deviceData,
                         "id": deviceData.id,
-                        "temperatura": [...deviceData.temperatura]
+                        "temperatura": [deviceData.temperatura.sift()]
                     };
                 }
             });
