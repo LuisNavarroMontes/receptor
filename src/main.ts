@@ -39,17 +39,17 @@ async function bootstrap() {
     let nextIoTNumber = 1;
     app.post("/", (req, res)=>{
         res.send('POST request to the homepage');
-        let data = req.body
-        console.log('Data:', data);
+        let msg = req.body
+        console.log('Data:', msg);
         const newDeviceKey = `IoTN_${nextIoTNumber++}`;
             json[newDeviceKey] = {
-                ...data,
-                "id": data.data.id,
-                "lat": data["data"]["lat"],
-                "lon": data["data"]["lon"],
-                "name": data["data"]["name"],
-                "status": data["data"]["status"],
-                "temp": data["data"]["temp"]
+                ...msg,
+                "id": msg.data.id,
+                "lat": msg["data"]["lat"],
+                "lon": msg["data"]["lon"],
+                "name": msg["data"]["name"],
+                "status": msg["data"]["status"],
+                "temp": msg["data"]["temp"]
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
