@@ -6,10 +6,12 @@ import * as cors from 'cors'; // Import cors package
 import * as bodyParser from 'body-parser';
 
 interface Device {
-  id: number;
-  nombre: string;
-  estado: string;
-  temperatura: number[];
+    id:string;
+    lon:string;
+    lat:string;
+    name:string;
+    status:string;
+    temp: number;
 }
 
 interface JSONData {
@@ -41,15 +43,14 @@ async function bootstrap() {
         res.send('POST request to the homepage');
         let msg = req.body
         console.log('Data:', msg);
-        const newDeviceKey = `IoTN_${nextIoTNumber++}`;
+        let newDeviceKey: any = `IoTN_${nextIoTNumber++}`;
             json[newDeviceKey] = {
-                ...msg,
                 "id": msg.data.id,
-                "lat": msg["data"]["lat"],
-                "lon": msg["data"]["lon"],
-                "name": msg["data"]["name"],
-                "status": msg["data"]["status"],
-                "temp": msg["data"]["temp"]
+                "lat": msg.data.lat.value,
+                "lon": msg.data.lon.value,
+                "name": msg.data.name.value,
+                "status": msg.data.status.value,
+                "temp": msg.data.temp.value
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
@@ -58,7 +59,7 @@ async function bootstrap() {
     const httpServer = createServer(app);
     await httpServer.listen(process.env.PORT || 3000);
     console.log('Socket.IO server listening on port', process.env.PORT || 3000);
-    const io = new Server(httpServer, {
+    /*const io = new Server(httpServer, {
         cors: {
             origin: "*",
             methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
@@ -99,7 +100,7 @@ async function bootstrap() {
         socket.on('disconnect', () => {
             console.log('User disconnected');
         });
-    });
+    });*/
 }
 
 bootstrap();
