@@ -12,7 +12,7 @@ interface Device {
     lat:string;
     name:string;
     status:string;
-    temp: number[];
+    temp: Array<number>;
 }
 
 interface JSONData {
@@ -49,7 +49,7 @@ async function bootstrap() {
         });
         if (existingDevice && typeof existingDevice !== 'number') {
             // Si el dispositivo ya existe, agregamos la temperatura al array existente
-            //existingDevice.temp.push(msg.data[0].temp.value);
+            existingDevice.temp.push(msg.data[0].temp.value);
             existingDevice.status = msg.data[0].status.value;
             existingDevice.lat = msg.data[0].lat.value;
             existingDevice.lon = msg.data[0].lon.value;
