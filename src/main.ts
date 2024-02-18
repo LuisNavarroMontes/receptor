@@ -11,7 +11,7 @@ interface Device {
     lat:string;
     name:string;
     status:string;
-    temp: number;
+    temp: number[];
 }
 
 interface JSONData {
@@ -43,7 +43,18 @@ async function bootstrap() {
         res.send('POST request to the homepage');
         let msg = req.body
         console.log('Data:', msg);
-        let newDeviceKey: any = `IoTN_${nextIoTNumber++}`;
+        let existingDevice = Object.values(json).find(device => {
+            return typeof device !== 'number' && device.id === msg.data[0].id;
+        });
+        if (existingDevice && typeof existingDevice !== 'number') {
+            // Si el dispositivo ya existe, agregamos la temperatura al array existente
+            existingDevice.temp.push(msg.data[0].temp.value);
+            existingDevice.status = msg.data[0].status.value;
+            existingDevice.lat = msg.data[0].lat.value;
+            existingDevice.lon = msg.data[0].lon.value;
+            existingDevice.name = msg.data[0].name.value;
+        } else {
+            let newDeviceKey: any = `IoTN_${nextIoTNumber++}`;
             json[newDeviceKey] = {
                 "id": msg.data[0].id,
                 "lat": msg.data[0].lat.value,
@@ -54,7 +65,8 @@ async function bootstrap() {
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
-        });
+        }
+    });
 
     const httpServer = createServer(app);
     await httpServer.listen(process.env.PORT || 3000);
