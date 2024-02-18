@@ -42,35 +42,19 @@ async function bootstrap() {
         let data = req.body
         console.log('Data:', data);
         const newDevices = data
-            newDevices.forEach(deviceKey => {
-                const deviceData = data[deviceKey];
-                let existingDevice = Object.values(json).find(device => {
-                    return typeof device !== 'number' && device.id === deviceData.data.id;
-                });
-                if (existingDevice) {
-                    if (typeof existingDevice !== 'number') {
-                        // Si el dispositivo ya existe, agregamos la temperatura al array existente
-                        existingDevice.temperatura.push(deviceData.temperatura);
-                    }
-                } else {
-                    // Si el dispositivo no existe, lo agregamos al JSON
-                    const newDeviceKey = `IoTN_${nextIoTNumber++}`;
-                    json[newDeviceKey] = {
-                        ...deviceData,
-                        "id": deviceData.data.id,
-                        "lat": deviceData.data.lat.value,
-                        "lon": deviceData.data.lon.value,
-                        "name": deviceData.data.name.value,
-                        "status": deviceData.data.status.value,
-                        "temp": deviceData.data.temp.value
-                    };
-                }
-            });
-
-            // Actualizamos la cantidad de dispositivos IoT
+        const newDeviceKey = `IoTN_${nextIoTNumber++}`;
+            json[newDeviceKey] = {
+                ...newDevices,
+                "id": newDevices.data.id,
+                "lat": newDevices.data.lat.value,
+                "lon": newDevices.data.lon.value,
+                "name": newDevices.data.name.value,
+                "status": newDevices.data.status.value,
+                "temp": newDevices.data.temp.value
+            };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
-    })
+        });
 
     const httpServer = createServer(app);
     await httpServer.listen(process.env.PORT || 3000);
