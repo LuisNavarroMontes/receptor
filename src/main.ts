@@ -5,6 +5,7 @@ import { Server } from 'socket.io';
 import * as cors from 'cors'; // Import cors package
 import * as bodyParser from 'body-parser';
 
+
 interface Device {
     id:string;
     lon:string;
@@ -48,7 +49,7 @@ async function bootstrap() {
         });
         if (existingDevice && typeof existingDevice !== 'number') {
             // Si el dispositivo ya existe, agregamos la temperatura al array existente
-            existingDevice.temp.push(msg.data[0].temp.value);
+            //existingDevice.temp.push(msg.data[0].temp.value);
             existingDevice.status = msg.data[0].status.value;
             existingDevice.lat = msg.data[0].lat.value;
             existingDevice.lon = msg.data[0].lon.value;
