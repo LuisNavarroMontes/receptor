@@ -46,11 +46,11 @@ async function bootstrap() {
             json[newDeviceKey] = {
                 ...newDevices,
                 "id": newDevices.data.id,
-                "lat": newDevices["data.lat.value"],
-                "lon": newDevices["data.lon.value"],
-                "name": newDevices["data.name.value"],
-                "status": newDevices["data.status.value"],
-                "temp": newDevices["data.temp.value"]
+                "lat": newDevices["data"]["lat"]["value"],
+                "lon": newDevices["data"]["lon"]["value"],
+                "name": newDevices["data"]["name"]["value"],
+                "status": newDevices["data"]["status"]["value"],
+                "temp": newDevices["data"]["temp"]["value"]
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
