@@ -45,12 +45,12 @@ async function bootstrap() {
         console.log('Data:', msg);
         let newDeviceKey: any = `IoTN_${nextIoTNumber++}`;
             json[newDeviceKey] = {
-                "id": msg.data.id,
-                "lat": msg.data.lat.value,
-                "lon": msg.data.lon.value,
-                "name": msg.data.name.value,
-                "status": msg.data.status.value,
-                "temp": msg.data.temp.value
+                "id": msg.data[0].id,
+                "lat": msg.data[0].lat.value,
+                "lon": msg.data[0].lon.value,
+                "name": msg.data[0].name.value,
+                "status": msg.data[0].status.value,
+                "temp": msg.data[0].temp.value
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
