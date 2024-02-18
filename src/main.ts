@@ -41,11 +41,11 @@ async function bootstrap() {
         res.send('POST request to the homepage');
         let data = req.body
         console.log('Data:', data);
-        const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
+        const newDevices = data
             newDevices.forEach(deviceKey => {
                 const deviceData = data[deviceKey];
                 let existingDevice = Object.values(json).find(device => {
-                    return typeof device !== 'number' && device.id === deviceData.id;
+                    return typeof device !== 'number' && device.id === deviceData.data.id;
                 });
                 if (existingDevice) {
                     if (typeof existingDevice !== 'number') {
