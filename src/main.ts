@@ -50,7 +50,7 @@ async function bootstrap() {
         console.log('Existing device:', existingDevice);
         if (existingDevice && typeof existingDevice !== 'number') {
             // Si el dispositivo ya existe, agregamos la temperatura al array existente
-            //existingDevice.temp.push(msg.data[0].temp.value);
+            existingDevice.temp.push(msg.data[0].temp.value);
             existingDevice.status = msg.data[0].status.value;
             existingDevice.lat = msg.data[0].lat.value;
             existingDevice.lon = msg.data[0].lon.value;
@@ -63,7 +63,7 @@ async function bootstrap() {
                 "lon": msg.data[0].lon.value,
                 "name": msg.data[0].name.value,
                 "status": msg.data[0].status.value,
-                "temp": msg.data[0].temp.value
+                "temp": [msg.data[0].temp.value]
             };
             json.N_con = Object.keys(json).filter(key => key.startsWith('IoTN')).length;
             console.log('Modified JSON:', json);
