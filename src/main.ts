@@ -57,8 +57,12 @@ async function bootstrap() {
                     const newDeviceKey = `IoTN_${nextIoTNumber++}`;
                     json[newDeviceKey] = {
                         ...deviceData,
-                        "id": deviceData.id,
-                        "temperatura": [deviceData.temperatura]
+                        "id": deviceData.data.id,
+                        "lat": deviceData.data.lat.value,
+                        "lon": deviceData.data.lon.value,
+                        "name": deviceData.data.name.value,
+                        "status": deviceData.data.status.value,
+                        "temp": deviceData.data.temp.value
                     };
                 }
             });
