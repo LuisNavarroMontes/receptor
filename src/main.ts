@@ -40,6 +40,7 @@ async function bootstrap() {
     app.post("/", (req, res)=>{
         res.send('POST request to the homepage');
         let data = req.body
+        console.log('Data:', data);
         const newDevices = Object.keys(data).filter(key => key.startsWith('IoT'));
             newDevices.forEach(deviceKey => {
                 const deviceData = data[deviceKey];
